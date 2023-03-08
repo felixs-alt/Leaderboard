@@ -6,7 +6,7 @@
 
 <p>Click the "Try it" button to get the text displayed on the submit button.</p>
 
-<button onclick="myFunction()">Try it</button>
+<button id="save">save</button>
 
 <p id="demo"></p>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -35,10 +35,10 @@
   const analytics = getAnalytics(app);
 </script>
 <script>
-function myFunction() {
+document.getElementById("save").onclick = function() {
   var x = document.getElementById("mySubmit").value;
   document.getElementById("demo").innerHTML = x;
-}
+};
 const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
