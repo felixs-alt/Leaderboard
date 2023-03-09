@@ -81,8 +81,9 @@
   </style>
 <body>
 
-    <input id="mySubmit" maxlength="10" placeholder="Username"></input>
+    <input id="mySubmit" maxlength="10" placeholder="Change Username"></input>
 <button id="save">Save</button>
+<p id="usertxt"></p>
 <div class="sound">
                     <div class="circle small-button-background" style="background-color: #339900;"></div>
                     <audio autoplay class="sound" id="fart" src="https://felixs-alt.github.io/3kh0/projects/soundboard/sounds/fart.mp3" preload="auto"></audio>
@@ -115,11 +116,13 @@
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
   const users = await getDocs(collection(db, "users"));
-  const userDoc = doc(db, "users", localStorage.id);
-  users.forEach((doc) => {
-  console.log({doc})
-})
-document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
+
+if (localStorage.getItem("username") === null) {
+  localStorage.username = "Anonymous"
+}
+if (localStorage.getItem("clicks") === null) {
+  localStorage.clicks = 0
+}
 if (localStorage.getItem("id") === null) {
 try {
   const docRef = await addDoc(collection(db, "users"), {
@@ -132,12 +135,15 @@ try {
   console.error("Error adding document: ", e);
 }
 }
-if (localStorage.getItem("username") === null) {
-  localStorage.username = "Anonymous"
-}
-if (localStorage.getItem("clicks") === null) {
-  localStorage.clicks = 0
-}
+
+
+  const userDoc = await doc(db, "users", localStorage.id);
+  users.forEach((doc) => {
+  console.log({doc})
+})
+document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
+
+document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
 
 
 document.getElementById("save").onclick = async function() {
@@ -146,6 +152,7 @@ document.getElementById("save").onclick = async function() {
   await updateDoc(userDoc, {
     username: x
   });
+  document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 };
 document.getElementById("cButton").onclick = async function() {
 document.getElementById('fart').load();
