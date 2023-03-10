@@ -235,19 +235,23 @@ class Leaderboard extends React.Component {
     console.log(player2.clicks)
     qResult.forEach((doc) => {
     const obj = doc.data()
-    if (obj.clicks >  player1.clicks) {
+    if (obj.clicks = player1.clicks) {return}
     obj.id = doc.id
     updaterank1(obj)
-    } else if (obj.clicks > player2.clicks) {
+    } else if (obj.clicks >= player2.clicks) {
+    if (obj.clicks = player2.clicks) {return}
     obj.id = doc.id
     updaterank2(obj)
-    } else if (obj.clicks > player3.clicks) {
+    } else if (obj.clicks >= player3.clicks) {
+    if (obj.clicks = player3.clicks) {return}
     obj.id = doc.id
     updaterank3(obj)
-    } else if (obj.clicks > player4.clicks) {
+    } else if (obj.clicks >= player4.clicks) {
+    if (obj.clicks = player4.clicks) {return}
     obj.id = doc.id
     updaterank4(obj)
-    } else if (obj.clicks > player5.clicks) { 
+    } else if (obj.clicks >= player5.clicks) { 
+    if (obj.clicks = player5.clicks) {return}
     obj.id = doc.id
     updaterank5(obj)
     } else { return}
