@@ -1,360 +1,171 @@
-<body class="body">
-  <style>
-  body{
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+
+<style>
+     body {
+    font-size: 12px;
+    background: transparent !important;
+    border-style: none;
+    font-family: helvetica, arial, sans-serif;
+ }
+  .download {
+    cursor: pointer
   }
-  
-  *{
-    box-sizing: border-box;
+  .name {
+    text-align: center;
+    font-size: 15px;
   }
-  
-  .Leaderboard{
-      color:white;
-      padding: 40px 20px;
-      margin: auto;
-      max-width: 800px;
+  #instants_container {
+    margin: 30px auto 0;
+    text-align: center;
+    border-style: none;
   }
-  .leader-wrap {
-      display: flex;
+  .instant {
+    position: relative;
+    vertical-align: top;
+    width: 94px;
+    border-style: none;
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 30px;
+    margin-right: 5px;
+    margin-left: 5px;
+    word-wrap: break-word;
   }
-  
-  .leader{
-      color:white;
-      padding: 8px 16px;
-      margin-bottom: 8px;
-      animation-name: revealLeaders;
-      animation-duration: .4s;
-      animation-fill-mode: both;
-      animation-timing-function: ease-in-out;
+  .small-button {
+    width: 94px;
+    height: 89px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 3px;
+    margin-top: 0px;
+    border-style: none;
+    position: absolute;
+    background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button.png) no-repeat;
+    cursor: pointer
   }
-  
-  .leader-ava {
-      padding: 8px;
-      margin-right: 16px;
-      position: relative;
+  .small-button:active {
+    background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button-pressed.png);
+    cursor: grab;
   }
-  
-  .leader-score {
-      color:white;
-      display: flex;
-      align-items: center;
-      opacity: 0.6;
+  .small-button-background {
+    width: 86px;
+    height: 84px;
+    margin-top: 3px;
+    margin-left: 6px;
+    position: absolute;
   }
-  
-  .leader-score svg{
-      display: block;
-      margin-right: 4px;
+  .small-button-shadow {
+    width: 94px;
+    height: 89px;
+    margin-bottom: 5px;
+    background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button-shadow.png) no-repeat;
   }
-  
-  .leader-score_title{
-  
-      line-height: 1;
+  .circle {
+    border-radius: 50%;
   }
-  
-  .leader-ava::after{
-      content: "";
-      left: 0;
-      bottom: 0;
-      display: block;
-      height: 6px;
-      position: absolute;
-      border: 0px transparent solid;
-      border-left-width: 20px;
-      border-right-width: 20px;
-      border-bottom-width: 6px;
-      border-bottom-color: #fff;
-      transition: border-bottom-color .2s ease-in-out;
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
   }
-  
-  .leader-bar {
-      margin-top: 8px;
-      animation-name: barLoad;
-      animation-duration: .4s;
-      animation-fill-mode: both;
-      animation-timing-function: cubic-bezier(0.6, 0.2, 0.1, 1);
-      transform-origin: left;
+  div.control {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    padding: 3px;
+    border: 3px solid #000;
+    background: #ffffff;
   }
-  
-  .bar {
-      height: 4px;
-      border-radius: 2px;
+  .woah {
+    cursor: pointer
   }
-  
-  @keyframes revealLeaders{
-      from{
-          transform: translateX(-200px);
-          opacity: 0;
-      }
-      to{
-          transform: none;
-          opacity: 1;
-      }
-  }
-  
-  @keyframes barLoad{
-      from{
-          transform: scaleX(0);
-      }
-      to{
-          transform: scaleX(1)
-      }
-  }</style>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
-  
-  <p style="color:MediumSeaGreen;" id="updatetime"></p>
-  <script type="module">
-   import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
-   import { initializeApp } from 
-  "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-   import { getFirestore, doc, getDoc, getDocs, collection, addDoc, setDoc, updateDoc, query, orderBy, limit, onSnapshot  } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-  
-    const firebaseConfig = {
-      apiKey: "AIzaSyDSYXQ6Hqw0DXHP9tChpeJTgqnRYz_-Myo",
-      authDomain: "leaderboard-85e6d.firebaseapp.com",
-      projectId: "leaderboard-85e6d",
-      storageBucket: "leaderboard-85e6d.appspot.com",
-      messagingSenderId: "74908748170",
-      appId: "1:74908748170:web:7e8b9b0a28b7e175c1a073",
-      measurementId: "G-X49PCEZT5R"
-    };
-  
-  
+  </style>
+<body>
+
+    <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
+<button style="color:MediumSeaGreen;" id="save">Save</button>
+<p style="color:MediumSeaGreen;" id="usertxt"></p>
+<div class="sound">
+                    <div class="circle small-button-background" style="background-color: #339900;"></div>
+                    <audio autoplay class="sound" id="fart" src="https://felixs-alt.github.io/3kh0/projects/soundboard/sounds/fart.mp3" preload="auto"></audio>
+                    <button id="cButton" class="small-button"></button>
+                    <div  class="small-button-shadow"></div>
+                    <h1 style="color:MediumSeaGreen;" id="clicks"></h1>
+                </div>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+
+<script type="module">
+ import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
+ import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+ import { getFirestore, doc, getDoc, getDocs, collection, addDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDSYXQ6Hqw0DXHP9tChpeJTgqnRYz_-Myo",
+    authDomain: "leaderboard-85e6d.firebaseapp.com",
+    projectId: "leaderboard-85e6d",
+    storageBucket: "leaderboard-85e6d.appspot.com",
+    messagingSenderId: "74908748170",
+    appId: "1:74908748170:web:7e8b9b0a28b7e175c1a073",
+    measurementId: "G-X49PCEZT5R"
+  };
+
   // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getFirestore(app);
-    const users = collection(db, "users");
-  
-    const ranking = await doc(db, "users", "Top5");
-  
-     function updaterank1(obj,doc) {
-      updateDoc(ranking, {a: obj});
-    }function updaterank2(obj,doc) {
-      updateDoc(ranking, {b: obj});
-    }function updaterank3(obj,doc) {
-      updateDoc(ranking, {c: obj});
-    }function updaterank4(obj,doc) {
-      updateDoc(ranking, {d: obj});
-    }function updaterank5(obj,doc) {
-      console.log(obj)
-      updateDoc(ranking, {e: obj});
-      }
-  
-      let txt = document.getElementById("updatetime")
-      function repeat(){
-        let timeleft = 10
-        var Repeater = setInterval(function(){
-          if(timeleft <= 0){
-            clearInterval(Repeater)
-          } else {
-            timeleft = Number(timeleft)-0.01
-            const timerounded = timeleft.toFixed(2)
-            txt.innerHTML = "Update in "+timerounded+" Seconds"
-          }
-        },10)
-      }
-      
-      
-      
-      
-      
-      
-      
-  
-  let colors = [
-  '#FFB900',
-  '#69797E',
-  '#847545',
-  '#E74856',
-  '#0078D7',
-  '#0099BC',
-  '#7A7574',
-  '#767676',
-  '#FF8C00',
-  '#E81123',
-  '#0063B1',
-  '#2D7D9A',
-  '#5D5A58',
-  '#4C4A48',
-  '#F7630C',
-  '#EA005E',
-  '#8E8CD8',
-  '#00B7C3',
-  '#68768A',
-  '#CA5010',
-  '#C30052',
-  '#6B69D6',
-  '#038387',
-  '#515C6B',
-  '#4A5459',
-  '#DA3B01',
-  '#E3008C',
-  '#8764B8',
-  '#00B294',
-  '#567C73',
-  '#647C64',
-  '#EF6950',
-  '#BF0077',
-  '#744DA9',
-  '#018574',
-  '#486860',
-  '#525E54',
-  '#D13438',
-  '#C239B3',
-  '#B146C2',
-  '#00CC6A',
-  '#498205',
-  '#FF4343',
-  '#9A0089',
-  '#881798',
-  '#10893E',
-  '#107C10',
-  '#7E735F'];
-  
-  
-  class Leaderboard extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        leaders: [],
-        maxScore:null };
-  
-      this.getData = this.getData.bind(this);
-    }
-    
-    async getData() {
-      repeat()
-   const unsub = onSnapshot(doc(db, "users", "Top5"), { includeMetadataChanges: true }, (doc) => {
-      localStorage.ranks = JSON.stringify(doc.data())
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+  const users = await getDocs(collection(db, "users"));
+
+if (localStorage.getItem("username") === null) {
+  localStorage.username = "Anonymous"
+}
+if (localStorage.getItem("clicks") === null) {
+  localStorage.clicks = 0
+}
+if (localStorage.getItem("id") === null) {
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    username: localStorage.username,
+    clicks: localStorage.clicks,
+});
+  localStorage.id = docRef.id
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
+}
+
+
+  const userDoc = await doc(db, "users", localStorage.id);
+  users.forEach((doc) => {
+  console.log({doc})
+})
+document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
+
+document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
+
+
+document.getElementById("save").onclick = async function() {
+  var x = document.getElementById("mySubmit").value;
+  localStorage.username = x
+  await updateDoc(userDoc, {
+    username: x
   });
-    
-    const q = query(users, orderBy("clicks"), limit(10));
-    const qResult = await getDocs(q);  
-  
-    const ranks = JSON.parse(localStorage.ranks)
-  
-  
-  
-      let player1 = ranks.a
-      let player2 = ranks.b
-      let player3 = ranks.c
-      let player4 = ranks.d
-      let player5 = ranks.e
-      
-      console.log(player2.clicks)
-      qResult.forEach((doc) => {
-      const obj = doc.data()
-      if (obj.clicks >= player1.clicks) {
-      if (obj.clicks == player1.clicks) {return} else {
-      obj.id = doc.id
-      updaterank1(obj)
-      }} else if (obj.clicks >= player2.clicks) {
-      if (obj.clicks == player2.clicks) {return} else {
-      obj.id = doc.id
-      updaterank2(obj)
-      }} else if (obj.clicks >= player3.clicks) {
-      if (obj.clicks == player3.clicks) {return} else {
-      obj.id = doc.id
-      updaterank3(obj)
-      }} else if (obj.clicks >= player4.clicks) {
-      if (obj.clicks == player4.clicks) {return} else {
-      obj.id = doc.id
-      updaterank4(obj)
-      }} else if (obj.clicks >= player5.clicks) { 
-      if (obj.clicks == player5.clicks) {return} else {
-      obj.id = doc.id
-      updaterank5(obj)
-      }} else { return}
-     });
-      let data = {
-        success: true,
-        leaders: [
-        { id: player1.id, name: player1.username, score: player1.clicks },
-        { id: player2.id, name: player2.username, score: player2.clicks },
-        { id: player3.id, name: player3.username, score: player3.clicks },
-        { id: player4.id, name: player4.username, score: player4.clicks },
-        { id: player5.id, name: player5.username, score: player5.clicks }],
-  
-        maxScore: player1.clicks };
-  
-      this.setState({
-        leaders: data.leaders,
-        maxScore: data.maxScore });
-  
-    }
-    componentWillMount() {
-      this.getData();
-      /*data is refreshing every 3 minutes*/
-      setInterval(this.getData, 10000);
-    }
-    render() {
-      return /*#__PURE__*/(
-        React.createElement("div", { className: "Leaderboard" }, /*#__PURE__*/
-        React.createElement("h1", null, "Leaderboard"), /*#__PURE__*/
-        React.createElement("div", { className: "leaders" },
-        this.state.leaders ?
-        this.state.leaders.map((el, i) => /*#__PURE__*/
-        React.createElement("div", {
-          key: el.id,
-          style: {
-            animationDelay: i * 0.1 + 's' },
-  
-          className: "leader" }, /*#__PURE__*/
-  
-        React.createElement("div", { className: "leader-wrap" },
-        i < 3 ? /*#__PURE__*/
-        React.createElement("div", {
-          style: {
-            backgroundColor: colors[i] },
-  
-          className: "leader-ava" }, /*#__PURE__*/
-  
-        React.createElement("svg", {
-          fill: "#fff",
-          xmlns: "http://www.w3.org/2000/svg",
-          height: 24,
-          width: 24,
-          viewBox: "0 0 32 32" }, /*#__PURE__*/
-  
-        React.createElement("path", { d: "M 16 3 C 14.354991 3 13 4.3549901 13 6 C 13 7.125993 13.63434 8.112309 14.5625 8.625 L 11.625 14.5 L 7.03125 11.21875 C 7.6313215 10.668557 8 9.8696776 8 9 C 8 7.3549904 6.6450096 6 5 6 C 3.3549904 6 2 7.3549904 2 9 C 2 10.346851 2.9241199 11.470238 4.15625 11.84375 L 6 22 L 6 26 L 6 27 L 7 27 L 25 27 L 26 27 L 26 26 L 26 22 L 27.84375 11.84375 C 29.07588 11.470238 30 10.346852 30 9 C 30 7.3549901 28.645009 6 27 6 C 25.354991 6 24 7.3549901 24 9 C 24 9.8696781 24.368679 10.668557 24.96875 11.21875 L 20.375 14.5 L 17.4375 8.625 C 18.36566 8.112309 19 7.125993 19 6 C 19 4.3549901 17.645009 3 16 3 z M 16 5 C 16.564129 5 17 5.4358709 17 6 C 17 6.5641291 16.564129 7 16 7 C 15.435871 7 15 6.5641291 15 6 C 15 5.4358709 15.435871 5 16 5 z M 5 8 C 5.5641294 8 6 8.4358706 6 9 C 6 9.5641286 5.5641291 10 5 10 C 4.4358709 10 4 9.5641286 4 9 C 4 8.4358706 4.4358706 8 5 8 z M 27 8 C 27.564129 8 28 8.4358709 28 9 C 28 9.5641283 27.564128 10 27 10 C 26.435872 10 26 9.5641283 26 9 C 26 8.4358709 26.435871 8 27 8 z M 16 10.25 L 19.09375 16.4375 L 20.59375 16.8125 L 25.59375 13.25 L 24.1875 21 L 7.8125 21 L 6.40625 13.25 L 11.40625 16.8125 L 12.90625 16.4375 L 16 10.25 z M 8 23 L 24 23 L 24 25 L 8 25 L 8 23 z" }))) :
-  
-  
-        null, /*#__PURE__*/
-        React.createElement("div", { className: "leader-content" }, /*#__PURE__*/
-        React.createElement("div", { className: "leader-name" }, i + 1 + '. ' + el.name), /*#__PURE__*/
-        React.createElement("div", { className: "leader-score" }, /*#__PURE__*/
-        React.createElement("div", { className: "leader-score_title" }, el.score)))), /*#__PURE__*/
-  
-  
-  
-        React.createElement("div", { style: { animationDelay: 0.4 + i * 0.2 + 's' }, className: "leader-bar" }, /*#__PURE__*/
-        React.createElement("div", {
-          style: {
-            backgroundColor: colors[i],
-            width: el.score / this.state.maxScore * 100 + '%' },
-  
-          className: "bar" })))) : /*#__PURE__*/
-  
-  
-  
-  
-  
-        React.createElement("div", { className: "empty" }, "\u041F\u0443\u0441\u0442\u043E"))));
-  
-  
-  
-  
-    }}
-  
-  
-  ReactDOM.render( /*#__PURE__*/React.createElement(Leaderboard, null), document.getElementById('app'));
-  
-  
-  </script>
-  <div id="app"></div>
-  </body>
-  
+  document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
+};
+document.getElementById("cButton").onclick = async function() {
+document.getElementById('fart').load();
+await updateDoc(userDoc, {
+    clicks: Number(localStorage.clicks) + 1
+});
+document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
+localStorage.clicks = Number(localStorage.clicks) + 1
+}
+
+
+
+</script>
+</body>
