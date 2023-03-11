@@ -1,165 +1,173 @@
 
 
 <style>
-     body {
-    font-size: 12px;
-    background: transparent !important;
-    border-style: none;
-    font-family: helvetica, arial, sans-serif;
- }
-  .download {
-    cursor: pointer
-  }
-  .name {
-    text-align: center;
-    font-size: 15px;
-  }
-  #instants_container {
-    margin: 30px auto 0;
-    text-align: center;
-    border-style: none;
-  }
-  .instant {
-    position: relative;
-    vertical-align: top;
-    width: 94px;
-    border-style: none;
-    text-align: center;
-    display: inline-block;
-    margin-bottom: 30px;
-    margin-right: 5px;
-    margin-left: 5px;
-    word-wrap: break-word;
-  }
-  .small-button {
-    width: 94px;
-    height: 89px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    margin-left: 3px;
-    margin-top: 0px;
-    border-style: none;
-    position: absolute;
-    background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button.png) no-repeat;
-    cursor: pointer
-  }
-  .small-button:active {
-    background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button-pressed.png);
-    cursor: grab;
-  }
-  .small-button-background {
-    width: 86px;
-    height: 84px;
-    margin-top: 3px;
-    margin-left: 6px;
-    position: absolute;
-  }
-  .small-button-shadow {
-    width: 94px;
-    height: 89px;
-    margin-bottom: 5px;
-    background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button-shadow.png) no-repeat;
-  }
-  .circle {
-    border-radius: 50%;
-  }
-  .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: white;
-  }
-  div.control {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: auto;
-    padding: 3px;
-    border: 3px solid #000;
-    background: #ffffff;
-  }
-  .woah {
-    cursor: pointer
-  }
-  </style>
+  body {
+ font-size: 12px;
+ background: transparent !important;
+ border-style: none;
+ font-family: helvetica, arial, sans-serif;
+}
+.download {
+ cursor: pointer
+}
+.name {
+ text-align: center;
+ font-size: 15px;
+}
+#instants_container {
+ margin: 30px auto 0;
+ text-align: center;
+ border-style: none;
+}
+.instant {
+ position: relative;
+ vertical-align: top;
+ width: 94px;
+ border-style: none;
+ text-align: center;
+ display: inline-block;
+ margin-bottom: 30px;
+ margin-right: 5px;
+ margin-left: 5px;
+ word-wrap: break-word;
+}
+.small-button {
+ width: 94px;
+ height: 89px;
+ margin-bottom: 0px;
+ margin-right: 0px;
+ margin-left: 3px;
+ margin-top: 0px;
+ border-style: none;
+ position: absolute;
+ background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button.png) no-repeat;
+ cursor: pointer
+}
+.small-button:active {
+ background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button-pressed.png);
+ cursor: grab;
+}
+.small-button-background {
+ width: 86px;
+ height: 84px;
+ margin-top: 3px;
+ margin-left: 6px;
+ position: absolute;
+}
+.small-button-shadow {
+ width: 94px;
+ height: 89px;
+ margin-bottom: 5px;
+ background: url(https://felixs-alt.github.io/3kh0/projects/soundboard/img/button-shadow.png) no-repeat;
+}
+.circle {
+ border-radius: 50%;
+}
+.flex-container {
+ display: flex;
+ flex-wrap: wrap;
+ background-color: white;
+}
+div.control {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: auto;
+ padding: 3px;
+ border: 3px solid #000;
+ background: #ffffff;
+}
+.woah {
+ cursor: pointer
+}
+</style>
 <body>
 
-    <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
+ <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
 <p style="color:MediumSeaGreen;" id="usertxt"></p>
 <div class="sound">
-                    <div class="circle small-button-background" style="background-color: #339900;"></div>
-                    <audio autoplay class="sound" id="fart" src="https://felixs-alt.github.io/3kh0/projects/soundboard/sounds/fart.mp3" preload="auto"></audio>
-                    <button id="cButton" class="small-button"></button>
-                    <div  class="small-button-shadow"></div>
-                    <h1 style="color:MediumSeaGreen;" id="clicks"></h1>
-                </div>
+                 <div class="circle small-button-background" style="background-color: #339900;"></div>
+                 <audio autoplay class="sound" id="fart" src="https://felixs-alt.github.io/3kh0/projects/soundboard/sounds/fart.mp3" preload="auto"></audio>
+                 <button id="cButton" class="small-button"></button>
+                 <div  class="small-button-shadow"></div>
+                 <h1 style="color:MediumSeaGreen;" id="clicks"></h1>
+             </div>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 
 <script type="module">
- import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
- import { initializeApp } from 
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
+import { initializeApp } from 
 "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
- import { getFirestore, doc, getDoc, getDocs, collection, addDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, collection, addDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDSYXQ6Hqw0DXHP9tChpeJTgqnRYz_-Myo",
-    authDomain: "leaderboard-85e6d.firebaseapp.com",
-    projectId: "leaderboard-85e6d",
-    storageBucket: "leaderboard-85e6d.appspot.com",
-    messagingSenderId: "74908748170",
-    appId: "1:74908748170:web:7e8b9b0a28b7e175c1a073",
-    measurementId: "G-X49PCEZT5R"
-  };
+const firebaseConfig = {
+ apiKey: "AIzaSyDSYXQ6Hqw0DXHP9tChpeJTgqnRYz_-Myo",
+ authDomain: "leaderboard-85e6d.firebaseapp.com",
+ projectId: "leaderboard-85e6d",
+ storageBucket: "leaderboard-85e6d.appspot.com",
+ messagingSenderId: "74908748170",
+ appId: "1:74908748170:web:7e8b9b0a28b7e175c1a073",
+ measurementId: "G-X49PCEZT5R"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getFirestore(app);
-  const users = await getDocs(collection(db, "users"));
-
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const users = await getDocs(collection(db, "users"));
+const userDoc = doc(db, "users", localStorage.id);
 if (localStorage.getItem("username") === null) {
-  localStorage.username = "Anonymous"
+localStorage.username = "Anonymous"
 }
 if (localStorage.getItem("clicks") === null) {
-  localStorage.clicks = 0
+localStorage.clicks = 0
 }
 if (localStorage.getItem("id") === null) {
 try {
-  const docRef = await addDoc(collection(db, "users"), {
-    username: localStorage.username,
-    clicks: localStorage.clicks,
+const docRef = await addDoc(collection(db, "users"), {
+ username: localStorage.username,
+ clicks: localStorage.clicks,
 });
-  localStorage.id = docRef.id
-  console.log("Document written with ID: ", docRef.id);
+localStorage.id = docRef.id
+console.log("Document written with ID: ", docRef.id);
 } catch (e) {
-  console.error("Error adding document: ", e);
+console.error("Error adding document: ", e);
+}
+} else {
+  const docRef = doc(db, "users", localStorage.id);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+let obj = docSnap.data()
+if (localStorage.clicks < obj.clicks) { localStorage.clicks = obj.clicks }
+} else {
+  console.log("No such document!");
+  console.log(localStorage.id)
 }
 }
 
 
-  const userDoc = await doc(db, "users", localStorage.id);
-  users.forEach((doc) => {
-  console.log({doc})
-})
+
+
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
 
 
 document.getElementById("save").onclick = async function() {
-  var x = document.getElementById("mySubmit").value;
-  localStorage.username = x
-  await updateDoc(userDoc, {
-    username: x
-  });
-  document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
+var x = document.getElementById("mySubmit").value;
+localStorage.username = x
+await updateDoc(userDoc, {
+ username: x
+});
+document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 };
 document.getElementById("cButton").onclick = async function() {
 document.getElementById('fart').load();
 await updateDoc(userDoc, {
-    clicks: Number(localStorage.clicks) + 1
+ clicks: Number(localStorage.clicks) + 1
 });
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
 localStorage.clicks = Number(localStorage.clicks) + 1
