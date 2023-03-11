@@ -140,6 +140,7 @@
     }function updaterank4(obj,doc) {
       updateDoc(ranking, {d: obj});
     }function updaterank5(obj,doc) {
+      console.log(obj)
       updateDoc(ranking, {e: obj});
       }
   
@@ -239,7 +240,6 @@
       if (obj.clicks == player1.clicks) {return} else {
       obj.id = doc.id
       updaterank1(obj)
-    console.log(obj)
       }} else if (obj.clicks >= player2.clicks) {
       if (obj.clicks == player2.clicks) {return} else {
       obj.id = doc.id
