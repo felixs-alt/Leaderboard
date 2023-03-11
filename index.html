@@ -289,7 +289,7 @@
     componentWillMount() {
       this.getData();
       /*data is refreshing every 3 minutes*/
-      setInterval(this.getData, 750);
+      setInterval(this.getData, 10000);
     }
     render() {
       return /*#__PURE__*/(
