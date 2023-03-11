@@ -105,7 +105,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
   
-  
+  <p style="color:MediumSeaGreen;" id="updatetime"></p>
   <script type="module">
    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
    import { initializeApp } from 
@@ -144,8 +144,19 @@
       updateDoc(ranking, {e: obj});
       }
   
-      
-      
+      let txt = document.getElementById("updatetime")
+      function repeat(){
+        let timeleft = 10
+        var Repeater = setInterval(function(){
+          if(timeleft <= 0){
+            clearInterval(Repeater)
+          } else {
+            timeleft = Number(timeleft)-0.01
+            const timerounded = timeleft.toFixed(2)
+            txt.innerHTML = "Update in "+timerounded+" Seconds"
+          }
+        },10)
+      }
       
       
       
@@ -216,6 +227,7 @@
     }
     
     async getData() {
+      repeat()
    const unsub = onSnapshot(doc(db, "users", "Top5"), { includeMetadataChanges: true }, (doc) => {
       localStorage.ranks = JSON.stringify(doc.data())
   });
@@ -277,7 +289,7 @@
     componentWillMount() {
       this.getData();
       /*data is refreshing every 3 minutes*/
-      setInterval(this.getData, 750);
+      setInterval(this.getData, 10000);
     }
     render() {
       return /*#__PURE__*/(
