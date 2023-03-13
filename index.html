@@ -122,7 +122,7 @@ if (localStorage.getItem("username") === null) {
 localStorage.username = "Anonymous"
 }
 if (localStorage.getItem("timestamp") === null) {
-  localStorage.timestamp = Date.now()+86400
+  localStorage.timestamp = Date.now()+86400000
   console.log(Date.now())
   localStorage.multiplier = 1
 if (localStorage.getItem("clicks") === null) {
@@ -130,7 +130,7 @@ localStorage.clicks = 0
 }
 if (localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
 try {
-const docRef = await addDoc(collection(db, "users-beta"), {
+const docRef = await addDoc(collection(db, "users"), {
  username: localStorage.username,
  clicks: localStorage.clicks,
 });
@@ -140,7 +140,7 @@ console.log("Document written with ID: ", docRef.id);
 console.error("Error adding document: ", e);
 }
 } else {
-  const docRef = doc(db, "users-beta", localStorage.id);
+  const docRef = doc(db, "users", localStorage.id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
 localStorage.id = docSnap.id
@@ -150,12 +150,12 @@ localStorage.id = docSnap.id
 }
 }
 if (localStorage.timestamp < Date.now())
-localStorage.timestamp = Number(Date.now) + 86400
+localStorage.timestamp = Date.now+86400000
 localStorage.clicksToday = 0
 localStorage.multiplier = 1
 }
 
-const userDoc = doc(db, "users-beta", localStorage.id)
+const userDoc = doc(db, "users", localStorage.id)
 const userOBJ = await getDoc(userDoc);
 let userData = userOBJ.data()
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
@@ -190,7 +190,7 @@ localStorage.clicks = Number(localStorage.clicks) + Number(localStorage.multipli
 if (localStorage.timestamp > Date.now()) {
 localStorage.clicksToday = Number(localStorage.clicksToday) + Number(localStorage.multiplier);
 } else {
-  localStorage.timestamp = Number(Date.now) + 86400
+  localStorage.timestamp = Date.now+86400000
   localStorage.clicksToday = 0
   localStorage.measurementId = 1
 }
