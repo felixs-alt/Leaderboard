@@ -117,15 +117,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
-const users = await getDocs(collection(db, "users"));
-const userDoc = doc(db, "users", localStorage.id);
 if (localStorage.getItem("username") === null) {
 localStorage.username = "Anonymous"
 }
 if (localStorage.getItem("clicks") === null) {
 localStorage.clicks = 0
 }
-if (localStorage.getItem("id") === null) {
+if (localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
 try {
 const docRef = await addDoc(collection(db, "users"), {
  username: localStorage.username,
@@ -140,16 +138,16 @@ console.error("Error adding document: ", e);
   const docRef = doc(db, "users", localStorage.id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-let obj = docSnap.data()
-if (localStorage.clicks < obj.clicks) { localStorage.clicks = obj.clicks }
+localStorage.id = docSnap.id
 } else {
   console.log("No such document!");
   console.log(localStorage.id)
 }
 }
-
-
-
+const userDoc = doc(db, "users", localStorage.id)
+const userOBJ = await getDoc(userDoc);
+let userData = userOBJ.data()
+if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
 
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 
@@ -170,9 +168,8 @@ await updateDoc(userDoc, {
  clicks: Number(localStorage.clicks) + 1
 });
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
-localStorage.clicks = Number(localStorage.clicks) + 1
+localStorage.clicks = Number(localStorage.clicks) + 1;
 }
-
 
 
 </script>
