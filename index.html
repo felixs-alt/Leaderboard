@@ -53,6 +53,9 @@
  margin-top: 3px;
  margin-left: 6px;
  position: absolute;
+ animation: mymove2 5s infinite;
+ animation-timing-function: linear;
+ animation-play-state: paused;
 }
 .small-button-shadow {
  width: 94px;
@@ -84,6 +87,16 @@ div.control {
   color: red;
   animation: mymove 5s infinite;
   animation-timing-function: linear;
+  animation-play-state: paused;
+}
+@keyframes mymove2 {
+  0%   {background-color: red;}
+  20%  {background-color: orange;}
+  40%  {background-color: yellow;}
+  60%  {background-color: green;}
+  80% {background-color: blue;}
+  100%  {background-color: red;}
+
 }
 
 @keyframes mymove {
@@ -100,11 +113,12 @@ div.control {
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
+<button style="color:MediumSeaGreen;" id="rebirth">Rebirth (10,000 clicks required)</button>
 <p style="color:MediumSeaGreen;" id="usertxt"></p>
 <h3 style="color:MediumSeaGreen;" id="clicksToday"></h3>
 <h1 style="color:rgb(255, 0, 0);" id="multiplier"></h1>
 <div class="sound">
-                 <div class="circle small-button-background" style="background-color: #339900;"></div>
+                 <div id="button-background"class="circle small-button-background" style="background-color: #339900;"></div>
                  <audio autoplay class="sound" id="fart" src="https://felixs-alt.github.io/3kh0/projects/soundboard/sounds/fart.mp3" preload="auto"></audio>
                  <button id="cButton" class="small-button"></button>
                  <div  class="small-button-shadow"></div>
@@ -140,13 +154,14 @@ localStorage.username = "Anonymous"
 if (localStorage.getItem("timestamp") === null) {
   localStorage.timestamp = Date.now()+86400000
   console.log(Date.now())
-  localStorage.multiplier = 1
+  localStorage.multiplier = localStorage.rebirths
 if (localStorage.getItem("clicks") === null) {
 localStorage.clicks = 0
 }
+document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 if (localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
 try {
-const docRef = await addDoc(collection(db, "users"), {
+const docRef = await addDoc(collection(db, "users-beta"), {
  username: localStorage.username,
  clicks: localStorage.clicks,
 });
@@ -156,7 +171,7 @@ console.log("Document written with ID: ", docRef.id);
 console.error("Error adding document: ", e);
 }
 } else {
-  const docRef = doc(db, "users", localStorage.id);
+  const docRef = doc(db, "users-beta", localStorage.id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
 localStorage.id = docSnap.id
@@ -164,18 +179,31 @@ localStorage.id = docSnap.id
   console.log("No such document!");
   console.log(localStorage.id)
 }
+}if (localStorage.rebirths == null) {
+  localStorage.rebirths = 1
+} if (localStorage.id == "PYVxG5Te2ZuxhyllQKOD") {
+  window.location = "/trolled.html"
 }
+
 if (localStorage.timestamp < Date.now())
 localStorage.timestamp = Date.now+86400000
 localStorage.clicksToday = 0
-localStorage.multiplier = 1
+localStorage.multiplier = localStorage.rebirths
 }
 
-const userDoc = doc(db, "users", localStorage.id)
+const userDoc = doc(db, "users-beta", localStorage.id)
 const userOBJ = await getDoc(userDoc);
 let userData = userOBJ.data()
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
 
+document.getElementById("rebirth").onclick = async function() {
+if (Number(localStorage.clicks) >= 10000) {
+localStorage.rebirths = Number(localStorage.rebirths)+1
+localStorage.clicks = 0
+localStorage.multiplier = localStorage.rebirths
+localStorage.clicksToday = 0
+localStorage.timestamp = Date.now()+86400000
+}}
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
@@ -191,11 +219,15 @@ document.getElementById('usertxt').innerHTML = "username: "+localStorage.usernam
 };
 document.getElementById("cButton").onclick = async function() {
 if (localStorage.clicksToday >= 750) {
-  localStorage.multiplier = 3
-  document.getElementById("multiplier").innerText = "3x"
+  document.getElementById("button-background").style.animationPlayState = "running";
+  document.getElementById("multiplier").style.animationPlayState = "running";
+  localStorage.multiplier = Number(localStorage.rebirths)*3
+  document.getElementById("multiplier").innerText = localStorage.multiplier+"x"
+  document.getElementById("button-background").style.animationPlayState = "paused";
+  document.getElementById("multiplier").style.animationPlayState = "paused";
 } else {
-  localStorage.multiplier = 1
-  document.getElementById("multiplier").innerText = ""
+  localStorage.multiplier = localStorage.rebirths
+  document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
 document.getElementById('fart').load();
 await updateDoc(userDoc, {
@@ -204,12 +236,14 @@ await updateDoc(userDoc, {
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + Number(localStorage.multiplier) + " Clicks";
 localStorage.clicks = Number(localStorage.clicks) + Number(localStorage.multiplier);
 if (localStorage.timestamp > Date.now()) {
-document.getElementById('clicksToday').innerHTML = Number(localStorage.clicksToday) + Number(localStorage.multiplier) + " Clicks Today";
-localStorage.clicksToday = Number(localStorage.clicksToday) + Number(localStorage.multiplier);
+document.getElementById('clicksToday').innerHTML = Number(localStorage.clicksToday) + " Clicks Today";
+localStorage.clicksToday = Number(localStorage.clicksToday)
 } else {
+  console.log("deez")
   localStorage.timestamp = Date.now+86400000
   localStorage.clicksToday = 0
   localStorage.measurementId = 1
+  localStorage.multiplier = localStorage.rebirths
 }
 }
 
