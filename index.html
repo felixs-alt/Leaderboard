@@ -186,7 +186,7 @@ localStorage.id = docSnap.id
 }
 
 if (localStorage.timestamp < Date.now())
-localStorage.timestamp = Date.now+86400000
+localStorage.timestamp = Date.now()+86400000
 localStorage.clicksToday = 0
 localStorage.multiplier = localStorage.rebirths
 }
@@ -206,7 +206,7 @@ localStorage.timestamp = Date.now()+86400000
 }}
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 
-document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
+document.getElementById('clicks').innerHTML = localStorage.clicks+" clicks";
 
 
 document.getElementById("save").onclick = async function() {
