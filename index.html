@@ -161,7 +161,7 @@ localStorage.clicks = 0
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 if (localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
 try {
-const docRef = await addDoc(collection(db, "users-beta"), {
+const docRef = await addDoc(collection(db, "users"), {
  username: localStorage.username,
  clicks: localStorage.clicks,
 });
@@ -171,7 +171,7 @@ console.log("Document written with ID: ", docRef.id);
 console.error("Error adding document: ", e);
 }
 } else {
-  const docRef = doc(db, "users-beta", localStorage.id);
+  const docRef = doc(db, "users", localStorage.id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
 localStorage.id = docSnap.id
@@ -191,7 +191,7 @@ localStorage.clicksToday = 0
 localStorage.multiplier = localStorage.rebirths
 }
 
-const userDoc = doc(db, "users-beta", localStorage.id)
+const userDoc = doc(db, "users", localStorage.id)
 const userOBJ = await getDoc(userDoc);
 let userData = userOBJ.data()
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
