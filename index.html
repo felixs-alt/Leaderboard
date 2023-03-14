@@ -158,6 +158,9 @@ if (localStorage.getItem("timestamp") === null) {
 if (localStorage.getItem("clicks") === null) {
 localStorage.clicks = 0
 }
+if (localStorage.getItem("rebirths") === null) {
+localStorage.rebirths = 1
+}
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 if (localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
 try {
