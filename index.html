@@ -86,6 +86,7 @@ div.control {
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
 <p style="color:MediumSeaGreen;" id="usertxt"></p>
+<h3 style="color:MediumSeaGreen;" id="clicksToday"></h3>
 <div class="sound">
                  <div class="circle small-button-background" style="background-color: #339900;"></div>
                  <audio autoplay class="sound" id="fart" src="https://felixs-alt.github.io/3kh0/projects/soundboard/sounds/fart.mp3" preload="auto"></audio>
@@ -185,9 +186,10 @@ document.getElementById('fart').load();
 await updateDoc(userDoc, {
  clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)
 });
-document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + Number(localStorage.multiplier) + " clicks";
+document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + Number(localStorage.multiplier) + " Clicks";
 localStorage.clicks = Number(localStorage.clicks) + Number(localStorage.multiplier);
 if (localStorage.timestamp > Date.now()) {
+document.getElementById('clicksToday').innerHTML = Number(localStorage.clicksToday) + Number(localStorage.multiplier) + " Clicks Today";
 localStorage.clicksToday = Number(localStorage.clicksToday) + Number(localStorage.multiplier);
 } else {
   localStorage.timestamp = Date.now+86400000
