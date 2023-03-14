@@ -193,7 +193,7 @@ localStorage.multiplier = localStorage.rebirths
 
 const userDoc = doc(db, "users", localStorage.id)
 const userOBJ = await getDoc(userDoc);
-let userData = userOBJ.data()
+const userData = userOBJ.data()
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
 
 document.getElementById("rebirth").onclick = async function() {
@@ -236,8 +236,8 @@ await updateDoc(userDoc, {
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + Number(localStorage.multiplier) + " Clicks";
 localStorage.clicks = Number(localStorage.clicks) + Number(localStorage.multiplier);
 if (localStorage.timestamp > Date.now()) {
-document.getElementById('clicksToday').innerHTML = Number(localStorage.clicksToday) + " Clicks Today";
-localStorage.clicksToday = Number(localStorage.clicksToday)
+document.getElementById('clicksToday').innerHTML = Number(localStorage.clicksToday)+1+" Clicks Today";
+localStorage.clicksToday = Number(localStorage.clicksToday)+1
 } else {
   console.log("deez")
   localStorage.timestamp = Date.now+86400000
