@@ -100,7 +100,6 @@ div.control {
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
-<button style="color:MediumSeaGreen;" id="rebirth">Rebirth (10,000 clicks required)</button>
 <p style="color:MediumSeaGreen;" id="usertxt"></p>
 <h3 style="color:MediumSeaGreen;" id="clicksToday"></h3>
 <h1 style="color:rgb(255, 0, 0);" id="multiplier"></h1>
@@ -141,7 +140,7 @@ localStorage.username = "Anonymous"
 if (localStorage.getItem("timestamp") === null) {
   localStorage.timestamp = Date.now()+86400000
   console.log(Date.now())
-  localStorage.multiplier = localStorage.rebirths
+  localStorage.multiplier = 1
 if (localStorage.getItem("clicks") === null) {
 localStorage.clicks = 0
 }
@@ -169,7 +168,7 @@ localStorage.id = docSnap.id
 if (localStorage.timestamp < Date.now())
 localStorage.timestamp = Date.now+86400000
 localStorage.clicksToday = 0
-localStorage.multiplier = localStorage.rebirths
+localStorage.multiplier = 1
 }
 
 const userDoc = doc(db, "users", localStorage.id)
@@ -177,10 +176,6 @@ const userOBJ = await getDoc(userDoc);
 let userData = userOBJ.data()
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
 
-document.getElementById("rebirth").onclick = async function() {
-if (Number(localStorage.clicks) >= 10000) {
-localStorage.rebirths = Number(localStorage.rebirths)+1
-}}
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + 1 + " clicks";
@@ -196,10 +191,10 @@ document.getElementById('usertxt').innerHTML = "username: "+localStorage.usernam
 };
 document.getElementById("cButton").onclick = async function() {
 if (localStorage.clicksToday >= 750) {
-  localStorage.multiplier = Number(localStorage.rebirths)*3
+  localStorage.multiplier = 3
   document.getElementById("multiplier").innerText = "3x"
 } else {
-  localStorage.multiplier = localStorage.rebirths
+  localStorage.multiplier = 1
   document.getElementById("multiplier").innerText = ""
 }
 document.getElementById('fart').load();
@@ -215,7 +210,6 @@ localStorage.clicksToday = Number(localStorage.clicksToday) + Number(localStorag
   localStorage.timestamp = Date.now+86400000
   localStorage.clicksToday = 0
   localStorage.measurementId = 1
-  localStorage.multiplier = localStorage.rebirths
 }
 }
 
