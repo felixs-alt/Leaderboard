@@ -3,6 +3,7 @@
   body{
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: navy;
   }
   
   *{
@@ -130,15 +131,15 @@
   
     const ranking = await doc(db, "users", "Top5");
   
-     function updaterank1(obj,doc) {
+     function updaterank1(obj) {
       updateDoc(ranking, {a: obj});
-    }function updaterank2(obj,doc) {
+    }function updaterank2(obj) {
       updateDoc(ranking, {b: obj});
-    }function updaterank3(obj,doc) {
+    }function updaterank3(obj) {
       updateDoc(ranking, {c: obj});
-    }function updaterank4(obj,doc) {
+    }function updaterank4(obj) {
       updateDoc(ranking, {d: obj});
-    }function updaterank5(obj,doc) {
+    }function updaterank5(obj) {
       console.log(obj)
       updateDoc(ranking, {e: obj});
       }
@@ -156,7 +157,6 @@
           }
         },10)
       }
-      
       
       
       
@@ -231,7 +231,7 @@
       localStorage.ranks = JSON.stringify(doc.data())
   });
     
-    const q = query(users, orderBy("clicks"), limit(10));
+    const q = query(users, orderBy("clicks", "desc"), limit(10));
     const qResult = await getDocs(q);  
   
     const ranks = JSON.parse(localStorage.ranks)
@@ -243,31 +243,33 @@
       let player3 = ranks.c
       let player4 = ranks.d
       let player5 = ranks.e
-      
-      console.log(player2.clicks)
+
       qResult.forEach((doc) => {
+      if(localStorage.rank == null){localStorage.rank = 0}
+      localStorage.rank = Number(localStorage.rank)+1
+      const cleardata = {"username":"doe", "clicks":0, "id":Math.random}
       const obj = doc.data()
-      if (obj.clicks >= player1.clicks) {
-      if (obj.clicks == player1.clicks) {return} else {
+      if (localStorage.rank == 1) {
+      if (player1.clicks != obj.clicks) {
       obj.id = doc.id
-      updaterank1(obj)
-      }} else if (obj.clicks >= player2.clicks) {
-      if (obj.clicks == player2.clicks) {return} else {
+      updaterank1(obj)}
+      } else if (localStorage.rank == 2) {
+        if (player2.clicks != obj.clicks) {
       obj.id = doc.id
-      updaterank2(obj)
-      }} else if (obj.clicks >= player3.clicks) {
-      if (obj.clicks == player3.clicks) {return} else {
+      updaterank2(obj)}
+      } else if (localStorage.rank == 3) {
+        if (player3.clicks != obj.clicks) {
       obj.id = doc.id
-      updaterank3(obj)
-      }} else if (obj.clicks >= player4.clicks) {
-      if (obj.clicks == player4.clicks) {return} else {
+      updaterank3(obj)}
+      } else if (localStorage.rank == 4) {
+        if (player4.clicks != obj.clicks) {
       obj.id = doc.id
-      updaterank4(obj)
-      }} else if (obj.clicks >= player5.clicks) { 
-      if (obj.clicks == player5.clicks) {return} else {
+      updaterank4(obj)}
+      } else if (localStorage.rank == 5) { 
+        if (player5.clicks != obj.clicks) {
       obj.id = doc.id
-      updaterank5(obj)
-      }} else { return}
+      updaterank5(obj)}
+      } else {localStorage.rank = 0}
      });
       let data = {
         success: true,
@@ -279,7 +281,7 @@
         { id: player5.id, name: player5.username, score: player5.clicks }],
   
         maxScore: player1.clicks };
-  
+        
       this.setState({
         leaders: data.leaders,
         maxScore: data.maxScore });
