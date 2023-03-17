@@ -194,6 +194,13 @@ localStorage.timestamp = Date.now()+86400000
 localStorage.clicksToday = 0
 localStorage.multiplier = localStorage.rebirths
 }
+async function update(){
+  await updateDoc(userDoc, {
+ clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)
+});
+}
+setInterval(update,10000)
+
 
 const userDoc = doc(db, "users", localStorage.id)
 const userOBJ = await getDoc(userDoc);
@@ -234,9 +241,6 @@ if (localStorage.clicksToday >= 750) {
   document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
 document.getElementById('fart').load();
-await updateDoc(userDoc, {
- clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)
-});
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + Number(localStorage.multiplier) + " Clicks";
 localStorage.clicks = Number(localStorage.clicks) + Number(localStorage.multiplier);
 if (localStorage.timestamp > Date.now()) {
