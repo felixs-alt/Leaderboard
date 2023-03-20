@@ -1,5 +1,6 @@
 
 
+
 <style>
   body {
  font-size: 12px;
@@ -53,9 +54,6 @@
  margin-top: 3px;
  margin-left: 6px;
  position: absolute;
- animation: mymove2 5s infinite;
- animation-timing-function: linear;
- animation-play-state: paused;
 }
 .small-button-shadow {
  width: 94px;
@@ -85,9 +83,7 @@ div.control {
 }
 #multiplier {
   color: red;
-  animation: mymove 5s infinite;
   animation-timing-function: linear;
-  animation-play-state: paused;
 }
 @keyframes mymove2 {
   0%   {background-color: red;}
@@ -186,10 +182,13 @@ localStorage.id = docSnap.id
   console.log("trolled")
   window.location = "/trolled.html"
 }
-}if (localStorage.rebirths == null) {
+}if (localStorage.clicksToday == null) {
+  localStorage.clicksToday = 0
+}
+if (localStorage.rebirths == null) {
   localStorage.rebirths = 1
-
-if (localStorage.timestamp < Date.now())
+}
+if (localStorage.timestamp < Date.now()){
 localStorage.timestamp = Date.now()+86400000
 localStorage.clicksToday = 0
 localStorage.multiplier = localStorage.rebirths
@@ -230,13 +229,13 @@ document.getElementById('usertxt').innerHTML = "username: "+localStorage.usernam
 };
 document.getElementById("cButton").onclick = async function() {
 if (localStorage.clicksToday >= 750) {
-  document.getElementById("button-background").style.animationPlayState = "running";
-  document.getElementById("multiplier").style.animationPlayState = "running";
+  document.getElementById("button-background").style.animation="mymove2 3s linear infinite";
+  document.getElementById("multiplier").style.animation="mymove 3s linear infinite";
   localStorage.multiplier = Number(localStorage.rebirths)*3
   document.getElementById("multiplier").innerText = localStorage.multiplier+"x"
-  document.getElementById("button-background").style.animationPlayState = "paused";
-  document.getElementById("multiplier").style.animationPlayState = "paused";
 } else {
+  document.getElementById("button-background").style.animation="mymove2 3s linear";
+  document.getElementById("multiplier").style.animation="mymove 3s linear";
   localStorage.multiplier = localStorage.rebirths
   document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
@@ -252,6 +251,8 @@ localStorage.clicksToday = Number(localStorage.clicksToday)+1
   localStorage.clicksToday = 0
   localStorage.measurementId = 1
   localStorage.multiplier = localStorage.rebirths
+  document.getElementById('multiplier').style.animation="mymove 5s linear";
+  document.getElementsByClassName('small-button-background').style.animation="mymove 5s linear";
 }
 }
 
