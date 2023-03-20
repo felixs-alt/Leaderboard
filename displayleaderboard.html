@@ -230,7 +230,7 @@
       localStorage.ranks = JSON.stringify(doc.data())
   });
     
-    const q = query(users, orderBy("clicks", "desc"), limit(10));
+    const q = query(users, orderBy("clicks", "desc"), limit(5));
     const qResult = await getDocs(q);  
   
     const ranks = JSON.parse(localStorage.ranks)
@@ -243,33 +243,19 @@
       let player4 = ranks.d
       let player5 = ranks.e
 
-      qResult.forEach((doc) => {
-      if(localStorage.rank == null){localStorage.rank = 0}
-      localStorage.rank = Number(localStorage.rank)+1
-      const cleardata = {"username":"doe", "clicks":0, "id":Math.random}
-      const obj = doc.data()
-      if (localStorage.rank == 1) {
-      if (player1.clicks != obj.clicks) {
-      obj.id = doc.id
-      updaterank1(obj)}
-      } else if (localStorage.rank == 2) {
-        if (player2.clicks != obj.clicks) {
-      obj.id = doc.id
-      updaterank2(obj)}
-      } else if (localStorage.rank == 3) {
-        if (player3.clicks != obj.clicks) {
-      obj.id = doc.id
-      updaterank3(obj)}
-      } else if (localStorage.rank == 4) {
-        if (player4.clicks != obj.clicks) {
-      obj.id = doc.id
-      updaterank4(obj)}
-      } else if (localStorage.rank == 5) { 
-        if (player5.clicks != obj.clicks) {
-      obj.id = doc.id
-      updaterank5(obj)}
-      } else {localStorage.rank = 0}
-     });
+      const array = new Array()
+qResult.forEach((doc) => {
+    const obj = doc.data()
+    obj.id = doc.id
+    array.push(obj);
+})
+const entries = array.entries()
+entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player1=x}});player1=globalThis.player1;updaterank1(player1);
+entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player2=x}});player2=globalThis.player2;updaterank2(player2)
+entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player3=x}});player3=globalThis.player3;updaterank3(player3)
+entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player4=x}});player4=globalThis.player4;updaterank4(player4)
+entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player5=x}});player5=globalThis.player5;updaterank5(player5)
+
       let data = {
         success: true,
         leaders: [
