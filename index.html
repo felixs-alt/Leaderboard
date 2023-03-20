@@ -248,7 +248,7 @@ document.getElementById('clicksToday').innerHTML = Number(localStorage.clicksTod
 localStorage.clicksToday = Number(localStorage.clicksToday)+1
 } else {
   console.log("deez")
-  localStorage.timestamp = Date.now+86400000
+  localStorage.timestamp = Date.now()+86400000
   localStorage.clicksToday = 0
   localStorage.measurementId = 1
   localStorage.multiplier = localStorage.rebirths
