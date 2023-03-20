@@ -151,14 +151,14 @@ if (localStorage.getItem("timestamp") === null) {
   localStorage.timestamp = Date.now()+86400000
   console.log(Date.now())
   localStorage.multiplier = localStorage.rebirths
-if (localStorage.getItem("clicks") === null) {
-localStorage.clicks = 0
 }
 if (localStorage.getItem("rebirths") === null) {
 localStorage.rebirths = 1
-}
+}  if (localStorage.getItem("clicks") === null) {
+localStorage.clicks = 0
+ }
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
-if (localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
+if (localStorage.id == null || localStorage.id == undefined ) {
 try {
 const docRef = await addDoc(collection(db, "users"), {
  username: localStorage.username,
@@ -169,20 +169,11 @@ console.log("Document written with ID: ", docRef.id);
 } catch (e) {
 console.error("Error adding document: ", e);
 }
-} else {
-  const docRef = doc(db, "users", localStorage.id);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-localStorage.id = docSnap.id
-} else {
-  console.log("No such document!");
-  console.log(localStorage.id)
-}
-} if (localStorage.id === "VEu71BfwigjWHy4OoOKx") {
+} if (localStorage.id == "VEu71BfwigjWHy4OoOKx") {
   console.log("trolled")
   window.location = "/trolled.html"
 }
-}if (localStorage.clicksToday == null) {
+if (localStorage.clicksToday == null) {
   localStorage.clicksToday = 0
 }
 if (localStorage.rebirths == null) {
@@ -194,18 +185,30 @@ localStorage.clicksToday = 0
 localStorage.multiplier = localStorage.rebirths
 }
 async function update(){
-  await updateDoc(userDoc, {
+  await updateDoc(docRef, {
  clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)
 });
 }
+const docRef = doc(db, "users", localStorage.id);
+const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+  console.log("user connected to database")
+}else{
+await setDoc(doc(db, "users", localStorage.id), {
+ id: localStorage.id,
+ username: localStorage.username,
+ clicks: localStorage.clicks
+});const docRef = doc(db, "users", localStorage.id);
+}
+
 setInterval(update,10000)
 
 
-const userDoc = doc(db, "users", localStorage.id)
-const userOBJ = await getDoc(userDoc);
-const userData = userOBJ.data()
+const userData = docSnap.data()
+await updateDoc(docRef, {id: Number(localStorage.id)})
+if (localStorage.id != userData.id) {localStorage.id = userData.id}
+if (userData.clicks === null) {await updateDoc(docRef, {clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)})}
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
-
 document.getElementById("rebirth").onclick = async function() {
 if (Number(localStorage.clicks) >= 10000) {
 localStorage.rebirths = Number(localStorage.rebirths)+1
@@ -222,7 +225,7 @@ document.getElementById('clicks').innerHTML = localStorage.clicks+" clicks";
 document.getElementById("save").onclick = async function() {
 var x = document.getElementById("mySubmit").value;
 localStorage.username = x
-await updateDoc(userDoc, {
+await updateDoc(docRef, {
  username: x
 });
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
