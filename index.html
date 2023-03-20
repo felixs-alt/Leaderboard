@@ -186,11 +186,13 @@ localStorage.multiplier = localStorage.rebirths
 }
 async function update(){
   await updateDoc(docRef, {
- clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)
+ clicks: Number(localStorage.clicks) + Number(localStorage.multiplier),
+ id: localStorage.id
 });
 }
 const docRef = doc(db, "users", localStorage.id);
 const docSnap = await getDoc(docRef);
+const userData = docSnap.data()
 if (docSnap.exists()) {
   console.log("user connected to database")
 }else{
@@ -200,15 +202,17 @@ await setDoc(doc(db, "users", localStorage.id), {
  clicks: localStorage.clicks
 });
 const docRef = doc(db, "users", localStorage.id);
+const userData = docSnap.data()
 localStorage.clear()
+localStorage.id = userData.id
 location.reload()
 }
 
 setInterval(update,10000)
 
 
-const userData = docSnap.data()
-await updateDoc(docRef, {id: Number(localStorage.id)})
+
+await updateDoc(docRef, {id: localStorage.id})
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
 document.getElementById("rebirth").onclick = async function() {
 if (Number(localStorage.clicks) >= 10000) {
