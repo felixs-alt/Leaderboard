@@ -198,7 +198,10 @@ await setDoc(doc(db, "users", localStorage.id), {
  id: localStorage.id,
  username: localStorage.username,
  clicks: localStorage.clicks
-});const docRef = doc(db, "users", localStorage.id);
+});
+const docRef = doc(db, "users", localStorage.id);
+localStorage.clear()
+location.reload()
 }
 
 setInterval(update,10000)
@@ -206,8 +209,6 @@ setInterval(update,10000)
 
 const userData = docSnap.data()
 await updateDoc(docRef, {id: Number(localStorage.id)})
-if (localStorage.id != userData.id) {localStorage.id = userData.id}
-if (userData.clicks === null) {await updateDoc(docRef, {clicks: Number(localStorage.clicks) + Number(localStorage.multiplier)})}
 if (localStorage.clicks != userData.clicks) {localStorage.clicks = userData.clicks}
 document.getElementById("rebirth").onclick = async function() {
 if (Number(localStorage.clicks) >= 10000) {
