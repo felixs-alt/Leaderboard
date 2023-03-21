@@ -128,20 +128,8 @@
     const db = getFirestore(app);
     const users = collection(db, "users");
   
-    const ranking = await doc(db, "users", "Top5");
   
-     function updaterank1(obj) {
-      updateDoc(ranking, {a: obj});
-    }function updaterank2(obj) {
-      updateDoc(ranking, {b: obj});
-    }function updaterank3(obj) {
-      updateDoc(ranking, {c: obj});
-    }function updaterank4(obj) {
-      updateDoc(ranking, {d: obj});
-    }function updaterank5(obj) {
-      console.log(obj)
-      updateDoc(ranking, {e: obj});
-      }
+
   
       let txt = document.getElementById("updatetime")
       function repeat(){
@@ -226,35 +214,13 @@
     
     async getData() {
       repeat()
-   const unsub = onSnapshot(doc(db, "users", "Top5"), { includeMetadataChanges: true }, (doc) => {
-      localStorage.ranks = JSON.stringify(doc.data())
-  });
-    
-    const q = query(users, orderBy("clicks", "desc"), limit(5));
-    const qResult = await getDocs(q);  
-  
-    const ranks = JSON.parse(localStorage.ranks)
-  
-  
-  
-      let player1 = ranks.a
-      let player2 = ranks.b
-      let player3 = ranks.c
-      let player4 = ranks.d
-      let player5 = ranks.e
-
-      const array = new Array()
-qResult.forEach((doc) => {
-    const obj = doc.data()
-    obj.id = doc.id
-    array.push(obj);
-})
-const entries = array.entries()
-entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player1=x}});player1=globalThis.player1;updaterank1(player1);
-entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player2=x}});player2=globalThis.player2;updaterank2(player2)
-entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player3=x}});player3=globalThis.player3;updaterank3(player3)
-entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player4=x}});player4=globalThis.player4;updaterank4(player4)
-entries.next().value.forEach((x=value.next())=>{if(x!=0){globalThis.player5=x}});player5=globalThis.player5;updaterank5(player5)
+      const response = await fetch("https://leaderboard-85e6d.web.app/data.JSON");
+      const data1 = await response.json();
+   let player1 = data1[0][0]
+   let player2 = data1[1][0]
+   let player3 = data1[2][0]
+   let player4 = data1[3][0]
+   let player5 = data1[4][0]
 
       let data = {
         success: true,
