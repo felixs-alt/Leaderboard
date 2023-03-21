@@ -162,7 +162,7 @@ if (localStorage.id == null || localStorage.id == undefined ) {
 try {
 const docRef = await addDoc(collection(db, "users"), {
  username: localStorage.username,
- clicks: localStorage.clicks,
+ clicks: Number(localStorage.clicks),
 });
 localStorage.id = docRef.id
 console.log("Document written with ID: ", docRef.id);
@@ -199,7 +199,7 @@ if (docSnap.exists()) {
 await setDoc(doc(db, "users", localStorage.id), {
  id: localStorage.id,
  username: localStorage.username,
- clicks: localStorage.clicks
+ clicks: Number(localStorage.clicks)
 });
 const docRef = doc(db, "users", localStorage.id);
 const userData = docSnap.data()
