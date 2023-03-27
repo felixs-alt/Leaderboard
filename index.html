@@ -111,7 +111,7 @@ div.control {
      data-context="signin"
      data-ux_mode="popup"
      data-callback="OnSignIn"
-     data-auto_prompt="false">
+     data-auto_prompt="true">
 </div>
 
 <div class="g_id_signin"
@@ -119,8 +119,8 @@ div.control {
      data-shape="pill"
      data-theme="outline"
      data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left">
+     data-size="small"
+     data-logo_alignment="right">
 </div>
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
@@ -180,7 +180,7 @@ location.reload()
 }
 function OnSignIn(response){
 localStoarge.id.append(decodeJwtResponse(response.credential))
-
+console.log(decodeJwtResponse(response.credential))
 }
 
 
