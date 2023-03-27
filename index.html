@@ -106,6 +106,22 @@ div.control {
 }
 </style>
 <body>
+<div id="g_id_onload"
+     data-client_id="74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-callback="OnSignIn"
+     data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="pill"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div>
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
@@ -144,6 +160,31 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
+
+const docRef = doc(db, "users", localStorage.id);
+const docSnap = await getDoc(docRef);
+const userData = docSnap.data()
+if (docSnap.exists()) {
+  console.log("user connected to database")
+}else{
+await setDoc(doc(db, "users", localStorage.id), {
+ id: localStorage.id,
+ username: localStorage.username,
+ clicks: Number(localStorage.clicks)
+});
+const docRef = doc(db, "users", localStorage.id);
+const userData = docSnap.data()
+localStorage.clear()
+localStorage.id = userData.id
+location.reload()
+}
+function OnSignIn(response){
+localStoarge.id.append(decodeJwtResponse(response.credential))
+
+}
+
+
+
 if (localStorage.getItem("username") === null) {
 localStorage.username = "Anonymous"
 }
@@ -189,23 +230,6 @@ async function update(){
  clicks: Number(localStorage.clicks) + Number(localStorage.multiplier),
  id: localStorage.id
 });
-}
-const docRef = doc(db, "users", localStorage.id);
-const docSnap = await getDoc(docRef);
-const userData = docSnap.data()
-if (docSnap.exists()) {
-  console.log("user connected to database")
-}else{
-await setDoc(doc(db, "users", localStorage.id), {
- id: localStorage.id,
- username: localStorage.username,
- clicks: Number(localStorage.clicks)
-});
-const docRef = doc(db, "users", localStorage.id);
-const userData = docSnap.data()
-localStorage.clear()
-localStorage.id = userData.id
-location.reload()
 }
 
 setInterval(update,10000)
