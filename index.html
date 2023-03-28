@@ -110,6 +110,7 @@ div.control {
 <div id="g_id_onload"
      data-client_id="74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com"
      data-context="signin"
+     data-auto_select="true"
      data-ux_mode="popup"
      data-callback="OnSignIn"
      data-auto_prompt="true">
@@ -173,7 +174,7 @@ location.reload()
 window.OnSignIn = (response) => {
 const Payload = decodeJwtResponse(response.credential)
 localStoarge.id = Payload.id
-await updateDoc(docRef, { id: Payload.id})
+updateDoc(docRef, { id: Payload.id})
 console.log(decodeJwtResponse(response.credential))
 }
 
