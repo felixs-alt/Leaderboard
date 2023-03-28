@@ -133,7 +133,7 @@
   
       let txt = document.getElementById("updatetime")
       function repeat(){
-        let timeleft = 10
+        let timeleft = 3
         var Repeater = setInterval(function(){
           if(timeleft <= 0){
             clearInterval(Repeater)
@@ -142,7 +142,7 @@
             const timerounded = timeleft.toFixed(2)
             txt.innerHTML = "Update in "+timerounded+" Seconds"
           }
-        },10)
+        },3)
       }
       
       
@@ -247,7 +247,7 @@
     componentWillMount() {
       this.getData();
       /*data is refreshing every 3 minutes*/
-      setInterval(this.getData, 10000);
+      setInterval(this.getData, 3000);
     }
     render() {
       return /*#__PURE__*/(
