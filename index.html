@@ -266,8 +266,8 @@ if (localStorage.clicksToday >= 750) {
   localStorage.multiplier = Number(localStorage.rebirths)*3
   document.getElementById("multiplier").innerText = localStorage.multiplier+"x"
 } else {
-  document.getElementById("button-background").style.animation="mymove2 3s linear";
-  document.getElementById("multiplier").style.animation="mymove 3s linear";
+  document.getElementById("button-background").style.animation="mymove2 0s linear";
+  document.getElementById("multiplier").style.animation="mymove 0s linear";
   localStorage.multiplier = localStorage.rebirths
   document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
