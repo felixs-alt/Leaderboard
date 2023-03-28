@@ -170,8 +170,10 @@ localStorage.clear()
 localStorage.id = userData.id
 location.reload()
 }
-function OnSignIn(response){
-localStoarge.id.append(decodeJwtResponse(response.credential))
+window.OnSignIn = (response) => {
+const Payload = decodeJwtResponse(response.credential)
+localStoarge.id = Payload.id
+await updateDoc(docRef, { id: Payload.id})
 console.log(decodeJwtResponse(response.credential))
 }
 
