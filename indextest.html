@@ -176,8 +176,7 @@ function parseJwt (token) {
 function handleCredentialResponse(response) {
   console.log(parseJwt(response.credential));
   const Payload = parseJwt(response.credential)
-  localStorage.id = Payload.id
-  updateDoc(docRef, { id: Payload.id, data:Payload})
+  updateDoc(docRef, {data:Payload})
   console.log(decodeJwtResponse(response.credential))
 }
 function oauth() {
