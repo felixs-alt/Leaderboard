@@ -174,19 +174,16 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 function handleCredentialResponse(response) {
-          console.log("Encoded JWT ID token: " + response.credential);
+          console.log(parseJwt(response.credential));
 }
 function oauth() {
   console.log("j")
   google.accounts.id.initialize({
     client_id: "74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com",
     callback: handleCredentialResponse,
-    ux_mode: "popup"
+    ux_mode: "popup",
+    allowed_parent_origin: "https://sites.google.com"
   });
-  google.accounts.id.renderButton(
-    document.getElementById("buttonDiv"),
-    { theme: "outline", size: "large", width: "100", shape: "pill"}  // customization attributes
-  );
   google.accounts.id.prompt(); // also display the One Tap dialog
 }
 
