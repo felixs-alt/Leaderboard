@@ -178,7 +178,7 @@ async function handleCredentialResponse(response) {
   console.log(parseJwt(response.credential));
   const Payload = parseJwt(response.credential)
   console.log(Payload.email)
-  if (localStorage.gStat == false){
+  if (localStorage.gStat === false){
     const gdocRef = doc(db, "users", Payload.email);
     const gdocSnap = await getDoc(gdocRef);
     const gdocData = gdocSnap.data()
