@@ -178,14 +178,11 @@ function handleCredentialResponse(response){
 console.log(parseJwt(response.credential))
 }
   window.onload = function () {
-      google.accounts.id.renderButton(document.getElementById("signinDiv"), {
-      theme: 'outline',
-      size: 'small',
-    });
     google.accounts.id.initialize({
       client_id: '74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com',
       callback: handleCredentialResponse
     });
+    google.accounts.id.renderButton(document.getElementById("signinDiv"), {theme: 'outline',size: 'small');
     google.accounts.id.prompt();
   };
 
