@@ -103,18 +103,10 @@ div.control {
 
 }
 </style>
+<head>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
 <body>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<div id="g_id_onload"
-     data-client_id="74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com"
-     data-context="use"
-     data-auto_select="true"
-     data-ux_mode="popup"
-     data-width="70%"
-     data-auto_prompt="true"
-     data-itp_support="true"
-     data-callback="onSignIn">
-</div>
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
@@ -153,7 +145,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
-
+if (localStorage.id == null){localStorage.id = "PlaceHold"}
+if (localStorage.getItem("username") === null) {localStorage.username = "Anonymous"}
 const docRef = doc(db, "users", localStorage.id);
 const docSnap = await getDoc(docRef);
 const userData = docSnap.data()
@@ -168,7 +161,7 @@ await setDoc(doc(db, "users", localStorage.id), {
 const docRef = doc(db, "users", localStorage.id);
 const userData = docSnap.data()
 localStorage.clear()
-localStorage.id = userData.id
+localStorage.id = docSnap.id
 location.reload()
 }
 function parseJwt (token) {
@@ -180,7 +173,7 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-window.onSignIn = response => {
+window.onSignIn = (response) => {
 const Payload = parseJwt(response.credential)
 localStoarge.id = Payload.id
 updateDoc(docRef, { id: Payload.id})
@@ -203,7 +196,7 @@ localStorage.rebirths = 1
 localStorage.clicks = 0
  }
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
-if (localStorage.id == null || localStorage.id == undefined ) {
+if (localStorage.id == "PlaceHold" || localStorage.id == undefined ) {
 try {
 const docRef = await addDoc(collection(db, "users"), {
  username: localStorage.username,
@@ -275,6 +268,9 @@ if (localStorage.clicksToday >= 750) {
   localStorage.multiplier = localStorage.rebirths
   document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
+if (localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
+localStorage.clicks = localStorage.clicksToday
+ }
 document.getElementById('fart').load();
 document.getElementById('clicks').innerHTML = Number(localStorage.clicks) + Number(localStorage.multiplier) + " Clicks";
 localStorage.clicks = Number(localStorage.clicks) + Number(localStorage.multiplier);
@@ -294,4 +290,15 @@ localStorage.clicksToday = Number(localStorage.clicksToday)+1
 
 
 </script>
+<div id="g_id_onload"
+     data-client_id="74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com"
+     data-context="use"
+     data-auto_select="false"
+     data-ux_mode="popup"
+     data-width="70%"
+     data-auto_prompt="true"
+     data-itp_support="true"
+     data-callback="onSignIn">
+</div>
 </body>
+
