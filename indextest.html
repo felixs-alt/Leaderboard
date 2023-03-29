@@ -107,10 +107,10 @@ div.control {
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
 <button style="color:MediumSeaGreen;" id="rebirth">Rebirth (10,000 clicks required)</button>
+<div id="buttonDiv"></div>
 <p style="color:MediumSeaGreen;" id="usertxt"></p>
 <h3 style="color:MediumSeaGreen;" id="clicksToday"></h3>
 <h1 style="color:rgb(255, 0, 0);" id="multiplier"></h1>
@@ -176,22 +176,18 @@ function parseJwt (token) {
 function handleCredentialResponse(response) {
           console.log("Encoded JWT ID token: " + response.credential);
 }
-window.onload = function () {
+function oauth() {
+  console.log("j")
   google.accounts.id.initialize({
     client_id: "74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com",
-    callback: handleCredentialResponse
+    callback: handleCredentialResponse,
+    ux_mode: "popup"
   });
   google.accounts.id.renderButton(
     document.getElementById("buttonDiv"),
-    { theme: "outline", size: "large", width: "100" }  // customization attributes
+    { theme: "outline", size: "large", width: "100", shape: "pill"}  // customization attributes
   );
   google.accounts.id.prompt(); // also display the One Tap dialog
-}
-window.onSignIn = (response) => {
-const Payload = parseJwt(response.credential)
-localStoarge.id = Payload.id
-updateDoc(docRef, { id: Payload.id})
-console.log(decodeJwtResponse(response.credential))
 }
 
 
@@ -301,9 +297,7 @@ localStorage.clicksToday = Number(localStorage.clicksToday)+1
   document.getElementsByClassName('small-button-background').style.animation="mymove 0s linear";
 }
 }
-
-
+oauth()
 </script>
-<div id="buttonDiv"></div>
 </div>
 </body>
