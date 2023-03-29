@@ -107,15 +107,7 @@ div.control {
 </style>
 <body>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<div id="g_id_onload"
-     data-client_id="74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com"
-     data-context="use"
-     data-auto_select="true"
-     data-ux_mode="popup"
-      data-width="70%"
-     data-callback="onSignIn"
-     data-auto_prompt="true"
-     data-itp_support="true">
+<div id="signinDiv"
 </div>
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
@@ -182,12 +174,18 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-globalThis.onSignIn = (response) => {
-const Payload = parseJwt(response.credential)
-localStoarge.id = Payload.id
-updateDoc(docRef, { id: Payload.id})
-console.log(decodeJwtResponse(response.credential))
-}
+  window.onload = function () {
+      google.accounts.id.renderButton(document.getElementById("signinDiv"), {
+      theme: 'outline',
+      size: 'small',
+      click_listener: onClickHandler
+    });
+    google.accounts.id.initialize({
+      client_id: '74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com',
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.prompt();
+  };
 
 
 
