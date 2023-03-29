@@ -184,7 +184,6 @@ function oauth() {
     ux_mode: "popup",
     allowed_parent_origin: "https://sites.google.com"
   });
-  google.accounts.id.renderButton(undefined,{ theme: "outline", size: "large" })
   google.accounts.id.prompt(); // also display the One Tap dialog
 }
 
