@@ -113,7 +113,7 @@ div.control {
      data-width="70%"
      data-auto_prompt="true"
      data-itp_support="true"
-     data-callback="onSignIn()">
+     data-callback="onSignIn">
 </div>
 
  <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
@@ -180,7 +180,7 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-function onSignIn(response){
+window.onSignIn = response => {
 const Payload = parseJwt(response.credential)
 localStoarge.id = Payload.id
 updateDoc(docRef, { id: Payload.id})
