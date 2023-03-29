@@ -181,8 +181,7 @@ function oauth() {
   google.accounts.id.initialize({
     client_id: "74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com",
     callback: handleCredentialResponse,
-    ux_mode: "popup",
-    allowed_parent_origin: "https://sites.google.com"
+    ux_mode: "popup"
   });
   google.accounts.id.prompt(); // also display the One Tap dialog
 }
