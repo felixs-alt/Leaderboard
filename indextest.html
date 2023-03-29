@@ -173,6 +173,20 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
+function handleCredentialResponse(response) {
+          console.log("Encoded JWT ID token: " + response.credential);
+}
+window.onload = function () {
+  google.accounts.id.initialize({
+    client_id: "74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+  });
+  google.accounts.id.renderButton(
+    document.getElementById("buttonDiv"),
+    { theme: "outline", size: "large", width: "100" }  // customization attributes
+  );
+  google.accounts.id.prompt(); // also display the One Tap dialog
+}
 window.onSignIn = (response) => {
 const Payload = parseJwt(response.credential)
 localStoarge.id = Payload.id
@@ -290,15 +304,6 @@ localStorage.clicksToday = Number(localStorage.clicksToday)+1
 
 
 </script>
-<div id="g_id_onload"
-     data-client_id="74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com"
-     data-context="use"
-     data-auto_select="false"
-     data-ux_mode="popup"
-     data-width="70%"
-     data-auto_prompt="true"
-     data-itp_support="true"
-     data-callback="onSignIn">
+<div id="buttonDiv"></div>
 </div>
 </body>
-
