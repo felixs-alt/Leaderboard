@@ -164,7 +164,7 @@ localStorage.clear()
 localStorage.id = docSnap.id
 location.reload()
 }
-if (localStorage.getItem("gStat") === null) {localStorage.gStat = false}
+if (localStorage.getItem("gStat") === undefined||localStorage.getItem("gStat") === null) {localStorage.gStat = false}
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -177,6 +177,7 @@ function parseJwt (token) {
 async function handleCredentialResponse(response) {
   console.log(parseJwt(response.credential));
   const Payload = parseJwt(response.credential)
+  console.log(Payload.email)
   if (localStorage.gStat = false){
     const gdocRef = doc(db, "users", Payload.email);
     const gdocSnap = await getDoc(gdocRef);
