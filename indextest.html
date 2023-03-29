@@ -180,7 +180,7 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-globalThis.onSignIn = (response) => {
+function onSignIn(response){
 const Payload = parseJwt(response.credential)
 localStoarge.id = Payload.id
 updateDoc(docRef, { id: Payload.id})
