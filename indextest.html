@@ -145,7 +145,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
-if (localStorage.id == null){localStorage.id = "PlaceHold"}
+if (typeof localStorage.id == null){localStorage.id = "PlaceHold"}
 if (localStorage.getItem("username") === null) {localStorage.username = "Anonymous"}
 const docRef = doc(db, "users", localStorage.id);
 const docSnap = await getDoc(docRef);
@@ -174,31 +174,36 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 function handleCredentialResponse(response) {
-          console.log(parseJwt(response.credential));
+  console.log(parseJwt(response.credential));
+  const Payload = parseJwt(response.credential)
+  localStoarge.id = Payload.id
+  updateDoc(docRef, { id: Payload.id, data:Payload})
+  console.log(decodeJwtResponse(response.credential))
 }
 function oauth() {
   console.log("j")
   google.accounts.id.initialize({
     client_id: "74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com",
     callback: handleCredentialResponse,
-    ux_mode: "popup"
+    ux_mode: "popup",
+    auto_select: true
   });
   google.accounts.id.prompt(); // also display the One Tap dialog
 }
 
 
 
-if (localStorage.getItem("username") === null) {
+if (typeof localStorage.getItem("username") === null) {
 localStorage.username = "Anonymous"
 }
-if (localStorage.getItem("timestamp") === null) {
+if (typeof localStorage.getItem("timestamp") === null) {
   localStorage.timestamp = Date.now()+86400000
   console.log(Date.now())
   localStorage.multiplier = localStorage.rebirths
 }
-if (localStorage.getItem("rebirths") === null) {
+if (typeof localStorage.getItem("rebirths") === null) {
 localStorage.rebirths = 1
-}  if (localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
+}  if (typeof localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
 localStorage.clicks = 0
  }
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
@@ -217,10 +222,10 @@ console.error("Error adding document: ", e);
   console.log("trolled")
   window.location = "/trolled.html"
 }
-if (localStorage.clicksToday == null) {
+if (typeof localStorage.clicksToday == null) {
   localStorage.clicksToday = 0
 }
-if (localStorage.rebirths == null) {
+if (typeof localStorage.rebirths == null) {
   localStorage.rebirths = 1
 }
 if (localStorage.timestamp < Date.now()){
@@ -274,7 +279,7 @@ if (localStorage.clicksToday >= 750) {
   localStorage.multiplier = localStorage.rebirths
   document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
-if (localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
+if (typeof localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
 localStorage.clicks = localStorage.clicksToday
  }
 document.getElementById('fart').load();
