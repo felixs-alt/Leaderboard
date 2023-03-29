@@ -129,7 +129,7 @@ div.control {
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
 import { initializeApp } from 
 "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-import { getFirestore, doc, getDoc, getDocs, collection, addDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, collection, addDoc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
 const firebaseConfig = {
  apiKey: "AIzaSyDSYXQ6Hqw0DXHP9tChpeJTgqnRYz_-Myo",
@@ -145,7 +145,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
-if (typeof localStorage.id == null){localStorage.id = "PlaceHold"}
+if (localStorage.id == null){localStorage.id = "PlaceHold"}
 if (localStorage.getItem("username") === null) {localStorage.username = "Anonymous"}
 const docRef = doc(db, "users", localStorage.id);
 const docSnap = await getDoc(docRef);
@@ -164,6 +164,7 @@ localStorage.clear()
 localStorage.id = docSnap.id
 location.reload()
 }
+if (localStorage.getItem("gStat") === null) {localStorage.gStat = false}
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -173,11 +174,28 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
-function handleCredentialResponse(response) {
+async function handleCredentialResponse(response) {
   console.log(parseJwt(response.credential));
   const Payload = parseJwt(response.credential)
-  updateDoc(docRef, {data:Payload})
-  console.log(decodeJwtResponse(response.credential))
+  if (localStorage.gStat = false){
+    const gdocRef = doc(db, "users", Payload.email);
+    const gdocSnap = await getDoc(gdocRef);
+    if (docSnap.exists()) {
+    await deleteDoc(doc(db, "users", localStorage.id));
+    localStorage.clear()
+    localStorage.id = Payload.email
+    location.reload()
+    }else{  
+    await deleteDoc(doc(db, "users", localStorage.id));
+    await setDoc(doc(db, "users", Payload.email), {
+    id: Payload.email,
+    username: localStorage.username,
+    clicks: Number(localStorage.clicks),
+    data: Payload
+    });
+    localStorage.id = Payload.email
+  } 
+} 
 }
 function oauth() {
   console.log("j")
@@ -192,17 +210,17 @@ function oauth() {
 
 
 
-if (typeof localStorage.getItem("username") === null) {
+if (localStorage.getItem("username") === null) {
 localStorage.username = "Anonymous"
 }
-if (typeof localStorage.getItem("timestamp") === null) {
+if (localStorage.getItem("timestamp") === null) {
   localStorage.timestamp = Date.now()+86400000
   console.log(Date.now())
   localStorage.multiplier = localStorage.rebirths
 }
-if (typeof localStorage.getItem("rebirths") === null) {
+if (localStorage.getItem("rebirths") === null) {
 localStorage.rebirths = 1
-}  if (typeof localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
+}  if (localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
 localStorage.clicks = 0
  }
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
@@ -221,10 +239,10 @@ console.error("Error adding document: ", e);
   console.log("trolled")
   window.location = "/trolled.html"
 }
-if (typeof localStorage.clicksToday == null) {
+if (localStorage.clicksToday == null) {
   localStorage.clicksToday = 0
 }
-if (typeof localStorage.rebirths == null) {
+if (localStorage.rebirths == null) {
   localStorage.rebirths = 1
 }
 if (localStorage.timestamp < Date.now()){
@@ -278,7 +296,7 @@ if (localStorage.clicksToday >= 750) {
   localStorage.multiplier = localStorage.rebirths
   document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
 }
-if (typeof localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
+if (localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
 localStorage.clicks = localStorage.clicksToday
  }
 document.getElementById('fart').load();
