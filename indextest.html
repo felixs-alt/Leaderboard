@@ -180,10 +180,14 @@ async function handleCredentialResponse(response) {
   if (localStorage.gStat = false){
     const gdocRef = doc(db, "users", Payload.email);
     const gdocSnap = await getDoc(gdocRef);
-    if (docSnap.exists()) {
+    const gdocData = gdocSnap.data()
+    if (gdocSnap.exists()) {
     await deleteDoc(doc(db, "users", localStorage.id));
     localStorage.clear()
     localStorage.id = Payload.email
+    localStorage.username = gdocData.username
+    localStorage.clicks = gdocData.clicks
+    localStorage.rebirths = gdocData.rebirths
     location.reload()
     }else{  
     await deleteDoc(doc(db, "users", localStorage.id));
@@ -195,6 +199,7 @@ async function handleCredentialResponse(response) {
     });
     localStorage.id = Payload.email
   } 
+  localStorage.gStat = true
 } 
 }
 function oauth() {
@@ -220,6 +225,7 @@ if (localStorage.getItem("timestamp") === null) {
 }
 if (localStorage.getItem("rebirths") === null) {
 localStorage.rebirths = 1
+await updateDoc(docRef, {rebirths: 1})
 }  if (localStorage.getItem("clicks") === null || localStorage.getItem("clicks") === NaN || localStorage.getItem("clicks") === undefined) {
 localStorage.clicks = 0
  }
@@ -270,6 +276,7 @@ localStorage.clicks = 0
 localStorage.multiplier = localStorage.rebirths
 localStorage.clicksToday = 0
 localStorage.timestamp = Date.now()+86400000
+await updateDoc(docRef, {rebirths: localStorage.rebirths})
 }}
 document.getElementById('usertxt').innerHTML = "username: "+localStorage.username
 
