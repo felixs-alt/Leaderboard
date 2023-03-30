@@ -190,6 +190,7 @@ async function handleCredentialResponse(response) {
     localStorage.username = gdocData.username
     localStorage.clicks = gdocData.clicks
     localStorage.rebirths = gdocData.rebirths
+    localStorage.gStat = "true"
     location.reload()
     }else{  
     await deleteDoc(doc(db, "users", localStorage.id));
@@ -201,7 +202,7 @@ async function handleCredentialResponse(response) {
     });
     localStorage.id = Payload.email
   } 
-  localStorage.gStat = true
+  localStorage.gStat = "true"
 } 
 }
 function oauth() {
@@ -212,6 +213,7 @@ function oauth() {
     ux_mode: "popup",
     auto_select: true
   });
+  google.accounts.id.renderButton(document.getelementbyid("gButn"), {theme: "filled_black", shape: "pill"});
   google.accounts.id.prompt(); // also display the One Tap dialog
 }
 
@@ -323,5 +325,6 @@ localStorage.clicksToday = Number(localStorage.clicksToday)+1
 }
 oauth()
 </script>
+<div id="gButn">
 </div>
 </body>
