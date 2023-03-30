@@ -213,7 +213,7 @@ function oauth() {
     ux_mode: "popup",
     auto_select: true
   });
-  google.accounts.id.renderButton(document.getelementbyid("gButn"), {theme: "filled_black", shape: "pill"});
+  google.accounts.id.renderButton(document.getElementById("gButn"), {theme: "filled_black", shape: "pill"});
   google.accounts.id.prompt(); // also display the One Tap dialog
 }
 
