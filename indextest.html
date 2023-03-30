@@ -228,7 +228,7 @@ if (localStorage.getItem("timestamp") === null) {
 if (localStorage.getItem("rebirths") === null) {
 localStorage.rebirths = 1
 await updateDoc(docRef, {rebirths: 1})
-}  if (localStorage.getItem("clicks") === null) {
+} else {await updateDoc(docRef, {rebirths: localStorage.rebirths})}  if (localStorage.getItem("clicks") === null) {
 localStorage.clicks = 0
  }
 document.getElementById("multiplier").innerText = localStorage.rebirths+"x"
@@ -250,9 +250,6 @@ console.error("Error adding document: ", e);
 if (localStorage.clicksToday == null) {
   localStorage.clicksToday = 0
 }
-if (localStorage.rebirths == null) {
-  localStorage.rebirths = 1
-}
 if (localStorage.timestamp < Date.now()){
 localStorage.timestamp = Date.now()+86400000
 localStorage.clicksToday = 0
@@ -261,7 +258,8 @@ localStorage.multiplier = localStorage.rebirths
 async function update(){
   await updateDoc(docRef, {
  clicks: Number(localStorage.clicks) + Number(localStorage.multiplier),
- id: localStorage.id
+ id: localStorage.id,
+ rebirths: localStorage.rebirths
 });
 }
 
