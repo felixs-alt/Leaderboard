@@ -216,7 +216,8 @@ function oauth() {
 }
 
 
-
+if (localStorage.getItem("rebirths") === null) {
+localStorage.rebirths = 1
 if (localStorage.getItem("username") === null) {
 localStorage.username = "Anonymous"
 }
@@ -225,8 +226,6 @@ if (localStorage.getItem("timestamp") === null) {
   console.log(Date.now())
   localStorage.multiplier = localStorage.rebirths
 }
-if (localStorage.getItem("rebirths") === null) {
-localStorage.rebirths = 1
 await updateDoc(docRef, {rebirths: 1})
 } else {await updateDoc(docRef, {rebirths: localStorage.rebirths})}  if (localStorage.getItem("clicks") === null) {
 localStorage.clicks = 0
