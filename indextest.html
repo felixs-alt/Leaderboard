@@ -168,7 +168,7 @@ localStorage.id = docSnap.id
 location.reload()
 }
 if (localStorage.gStat === undefined||localStorage.getItem("gStat") === null) {localStorage.gStat = false}
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (user) => async function(){
   if (user) {
   console.log(user);
   const Payload = user
@@ -198,20 +198,9 @@ onAuthStateChanged(auth, (user) => {
     localStorage.id = Payload.email
   } 
   localStorage.gStat = "true"
-} 
 }
-function oauth() {
-  console.log("j")
-  google.accounts.id.initialize({
-    client_id: "74908748170-0mhdj9fuk30ad721put4b7jjlacqi5ki.apps.googleusercontent.com",
-    callback: handleCredentialResponse,
-    ux_mode: "popup",
-    auto_select: true
-  });
-  google.accounts.id.renderButton(document.getElementById("gButn"), {theme: "filled_black", shape: "pill"});
-  google.accounts.id.prompt(); // also display the One Tap dialog
 }
-
+});
 
 if (localStorage.getItem("rebirths") === null) {
 localStorage.rebirths = 1
@@ -318,8 +307,5 @@ localStorage.clicksToday = Number(localStorage.clicksToday)+1
   document.getElementsByClassName('small-button-background').style.animation="mymove 0s linear";
 }
 }
-oauth()
 </script>
-<div id="gButn">
-</div>
 </body>
