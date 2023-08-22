@@ -6,6 +6,9 @@
  border-style: none;
  font-family: helvetica, arial, sans-serif;
 }
+.interface {
+ opacity:0
+}
 .download {
  cursor: pointer
 }
@@ -84,7 +87,8 @@ div.control {
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
- <input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
+<div class="interface">
+<input style="color:MediumSeaGreen;" id="mySubmit" maxlength="20" placeholder="Change Username"></input>
 <button style="color:MediumSeaGreen;" id="save">Save</button>
 <button style="color:MediumSeaGreen;" id="rebirth">Rebirth (10,000 clicks required)</button>
 <div id="buttonDiv"></div>
@@ -98,6 +102,7 @@ div.control {
                  <div  class="small-button-shadow"></div>
                  <h1 style="color:MediumSeaGreen;" id="clicks"></h1>
              </div>
+</div>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
